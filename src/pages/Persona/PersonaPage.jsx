@@ -6,6 +6,7 @@ import {
   Play, RotateCcw
 } from 'lucide-react'
 import clsx from 'clsx'
+import { InputBar } from '../Chat/ChatPage'
 
 // ─── Mock initial messages ───
 const initialMessages = [
@@ -72,21 +73,20 @@ function MessageBubble({ msg }) {
     <div className={clsx('flex gap-2 group', isUser ? 'flex-row-reverse' : 'flex-row')}>
       {/* Bubble */}
       <div className={clsx(
-        'max-w-[75%] flex flex-col',
+        'max-w-[75%] flex gap-2',
         isUser ? 'items-end' : 'items-start'
       )}>
         {/* إيبلا badge للـ assistant */}
         {!isUser && (
-          <div className="flex items-center gap-1.5 mb-1.5">
-            <div className="w-5 h-5 rounded-md bg-gray-900 dark:bg-white flex items-center justify-center">
+          <div className="flex items-center gap-2 mb-1.5">
+            <div className="size-8 rounded-full bg-gray-900 dark:bg-white flex items-center justify-center">
               <span className="text-white dark:text-gray-900 text-xs font-black leading-none">ا</span>
             </div>
-            <span className="text-xs font-bold text-gray-900 dark:text-white">ايبلا</span>
           </div>
         )}
 
         <div className={clsx(
-          'px-4 py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-line',
+          'px-4 py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-line ',
           isUser
             ? 'bg-gray-100 dark:bg-white/10 text-gray-800 dark:text-gray-200 rounded-tr-sm'
             : 'bg-white dark:bg-dark-card border border-gray-100 dark:border-white/5 text-gray-800 dark:text-gray-200 rounded-tl-sm shadow-sm'
@@ -112,7 +112,7 @@ function MessageBubble({ msg }) {
 // ─── Left persona panel ───
 function PersonaPanel() {
   return (
-    <div className="w-64 shrink-0 flex flex-col border-e border-gray-100 dark:border-white/5 bg-white dark:bg-dark-sidebar">
+    <div className="w-[500px] shrink-0 flex flex-col border-e border-gray-100 dark:border-white/5 bg-white dark:bg-dark-sidebar">
       {/* Header */}
       <div className="p-4 border-b border-gray-100 dark:border-white/5 flex items-center justify-between">
         <span className="text-xs font-bold text-gray-500 dark:text-gray-400">الشخصية الافتراضية</span>
@@ -142,61 +142,6 @@ function PersonaPanel() {
   )
 }
 
-// ─── Input bar ───
-function InputBar({ value, onChange, onSend, disabled }) {
-  const handleKey = (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      onSend()
-    }
-  }
-
-  return (
-    <div className="p-4 border-t border-gray-100 dark:border-white/5 bg-white dark:bg-dark-sidebar shrink-0">
-      <div className="flex items-end gap-3 bg-gray-50 dark:bg-dark-card rounded-2xl px-4 py-3 border border-gray-200 dark:border-white/5 focus-within:border-sky-400 transition-colors">
-        {/* Mic */}
-        <button className="w-8 h-8 rounded-xl bg-gray-900 dark:bg-sky-500 flex items-center justify-center text-white shrink-0">
-          <Mic size={14} />
-        </button>
-
-        {/* Input */}
-        <textarea
-          rows={1}
-          value={value}
-          onChange={e => onChange(e.target.value)}
-          onKeyDown={handleKey}
-          placeholder="كيف يمكنني مساعدتك اليوم؟"
-          className="flex-1 bg-transparent text-sm text-gray-800 dark:text-gray-200 placeholder-gray-400 focus:outline-none resize-none max-h-28 leading-relaxed"
-          style={{ minHeight: '24px' }}
-        />
-
-        {/* Attachments */}
-        <div className="flex items-center gap-2 shrink-0">
-          <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white dark:bg-white/5 border border-gray-200 dark:border-white/10 text-xs font-medium text-gray-600 dark:text-gray-400 hover:border-sky-400 hover:text-sky-500 transition-colors">
-            <Globe size={12} />
-            موقع الويب
-          </button>
-          <button className="w-7 h-7 rounded-xl flex items-center justify-center text-gray-400 hover:text-sky-500 hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">
-            <Link2 size={14} />
-          </button>
-          {/* Send */}
-          <button
-            onClick={onSend}
-            disabled={disabled || !value.trim()}
-            className={clsx(
-              'w-8 h-8 rounded-xl flex items-center justify-center transition-all',
-              value.trim()
-                ? 'bg-gray-900 dark:bg-sky-500 text-white hover:opacity-90 hover:scale-105'
-                : 'bg-gray-200 dark:bg-white/10 text-gray-400 cursor-not-allowed'
-            )}
-          >
-            <Send size={13} />
-          </button>
-        </div>
-      </div>
-    </div>
-  )
-}
 
 // ─── MAIN PAGE ───
 export default function PersonaPage() {
@@ -231,12 +176,7 @@ export default function PersonaPage() {
   }
 
   return (
-    <div className="flex h-[calc(100vh-3.5rem)] overflow-hidden rounded-2xl bg-gray-50 dark:bg-dark-bg border border-gray-100 dark:border-white/5">
-
-      {/* Left: Persona panel */}
-      <PersonaPanel />
-
-      {/* Right: Chat area */}
+    <div className="flex gap-4 h-[calc(100vh-7rem)] overflow-hidden rounded-2xl bg-[#FFFFFF59] dark:bg-dark-bg border border-gray-100 dark:border-white/5">
       <div className="flex-1 flex flex-col min-w-0">
         {/* Messages */}
         <div className="flex-1 overflow-y-auto px-6 py-5 flex flex-col gap-5">
@@ -254,6 +194,8 @@ export default function PersonaPage() {
           disabled={loading}
         />
       </div>
+      <PersonaPanel />
+
     </div>
   )
 }

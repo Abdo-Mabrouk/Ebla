@@ -86,7 +86,7 @@ function MessageBubble({ msg }) {
 }
 
 // ─── Input Bar (shared) ───
-function InputBar({ value, onChange, onSend, disabled, isEmpty }) {
+export function InputBar({ value, onChange, onSend, disabled, isEmpty }) {
   const handleKey = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
@@ -100,7 +100,7 @@ function InputBar({ value, onChange, onSend, disabled, isEmpty }) {
         "w-full",
         isEmpty
           ? "max-w-2xl mx-auto"
-          : "border-t border-gray-100 dark:border-white/5 bg-white dark:bg-dark-sidebar p-4",
+          : " p-4",
       )}
     >
       <div
